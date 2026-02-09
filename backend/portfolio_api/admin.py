@@ -1,6 +1,24 @@
+import os
+
 from django.contrib import admin
+from django.utils.html import format_html
 
 from .models import Education, Message, Profile, Project, SkillCategory, Stat, ChatSession, ChatMessage
+
+
+def _filesize_display(field):
+    """Return a human-readable file-size string for a FileField."""
+    if not field:
+        return "—"
+    try:
+        size = field.size
+    except (FileNotFoundError, ValueError):
+        return "—"
+    if size < 1024:
+        return f"{size} B"
+    elif size < 1024 * 1024:
+        return f"{size / 1024:.1f} KB"
+    return f"{size / (1024 * 1024):.2f} MB"
 
 
 class StatInline(admin.TabularInline):
@@ -16,12 +34,34 @@ class EducationInline(admin.TabularInline):
 class SkillCategoryInline(admin.TabularInline):
     model = SkillCategory
     extra = 1
+    readonly_fields = ["photo_preview", "photo_size"]
+
+    def photo_preview(self, obj):
+        if obj.photo:
+            return format_html('<img src="{}" style="max-height:60px;border-radius:4px"/>', obj.photo.url)
+        return "—"
+    photo_preview.short_description = "Preview"
+
+    def photo_size(self, obj):
+        return _filesize_display(obj.photo)
+    photo_size.short_description = "File Size"
 
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ["name", "role", "email", "updated_at"]
+    list_display = ["name", "role", "email", "avatar_preview", "avatar_size", "updated_at"]
+    readonly_fields = ["avatar_preview", "avatar_size"]
     inlines = [StatInline, EducationInline, SkillCategoryInline]
+
+    def avatar_preview(self, obj):
+        if obj.avatar_url:
+            return format_html('<img src="{}" style="max-height:80px;border-radius:8px"/>', obj.avatar_url.url)
+        return "—"
+    avatar_preview.short_description = "Avatar"
+
+    def avatar_size(self, obj):
+        return _filesize_display(obj.avatar_url)
+    avatar_size.short_description = "File Size"
 
 
 @admin.register(Education)
@@ -32,8 +72,19 @@ class EducationAdmin(admin.ModelAdmin):
 
 @admin.register(SkillCategory)
 class SkillCategoryAdmin(admin.ModelAdmin):
-    list_display = ["name", "profile", "order"]
+    list_display = ["name", "photo_preview", "photo_size", "profile", "order"]
     list_filter = ["profile"]
+    readonly_fields = ["photo_preview", "photo_size"]
+
+    def photo_preview(self, obj):
+        if obj.photo:
+            return format_html('<img src="{}" style="max-height:60px;border-radius:4px"/>', obj.photo.url)
+        return "—"
+    photo_preview.short_description = "Preview"
+
+    def photo_size(self, obj):
+        return _filesize_display(obj.photo)
+    photo_size.short_description = "File Size"
 
 
 @admin.register(Project)
