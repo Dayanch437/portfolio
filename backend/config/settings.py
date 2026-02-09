@@ -13,7 +13,7 @@ SECRET_KEY = 'django-insecure-qswc4xgmbd-*ufr%w0#+vl@ms9c4e1q(5qc!8(3*)n_6y7p4_q
 
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+ALLOWED_HOSTS = ["dayanch2003.me"]
 
 
 INSTALLED_APPS = [
@@ -112,9 +112,11 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 # CORS configuration
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
+    "http://dayanch2003.me",
 ]
-
+CRSF_TRUSTED_ORIGINS = [
+    "http://dayanch2003.me",
+]
 CORS_ALLOW_CREDENTIALS = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
