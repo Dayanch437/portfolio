@@ -3,6 +3,7 @@ import os
 from django.contrib import admin
 from django.utils.html import format_html
 
+from .image_utils import UploadedFile
 from .models import Education, Message, Profile, Project, SkillCategory, Stat, ChatSession, ChatMessage
 
 
@@ -130,3 +131,37 @@ class ChatMessageAdmin(admin.ModelAdmin):
     def content_preview(self, obj):
         return obj.content[:50]
     content_preview.short_description = "Content"
+
+
+@admin.register(UploadedFile)
+class UploadedFileAdmin(admin.ModelAdmin):
+    list_display = [
+        "original_filename",
+        "uploaded_by",
+        "content_field",
+        "human_size",
+        "created_at",
+    ]
+    list_filter = ["content_field", "created_at", "uploaded_by"]
+    search_fields = ["original_filename", "content_field"]
+    readonly_fields = [
+        "uploaded_by",
+        "original_filename",
+        "original_size",
+        "path_original",
+        "path_icon",
+        "path_normal",
+        "path_large",
+        "content_field",
+        "created_at",
+        "updated_at",
+    ]
+
+    def human_size(self, obj):
+        size = obj.original_size
+        if size < 1024:
+            return f"{size} B"
+        elif size < 1024 * 1024:
+            return f"{size / 1024:.1f} KB"
+        return f"{size / (1024 * 1024):.2f} MB"
+    human_size.short_description = "Original Size"

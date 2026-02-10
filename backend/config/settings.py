@@ -32,6 +32,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'portfolio_api.image_utils.CurrentUserMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -98,6 +99,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 CORS_ALLOWED_ORIGINS = [
     "https://dayanch2003.vercel.app",
+    "http://localhost:5173",
 ]
 CRSF_TRUSTED_ORIGINS = [
     "https://dayanch2003.vercel.app",

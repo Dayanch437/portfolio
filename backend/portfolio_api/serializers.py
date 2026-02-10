@@ -16,17 +16,25 @@ class EducationSerializer(serializers.ModelSerializer):
 
 
 class SkillCategorySerializer(serializers.ModelSerializer):
-    photo_url = serializers.SerializerMethodField()
+    photo_urls = serializers.SerializerMethodField()
 
     class Meta:
         model = SkillCategory
-        fields = ["id", "name", "description", "order", "photo", "photo_url"]
+        fields = ["id", "name", "description", "order", "photo", "photo_urls"]
 
-    def get_photo_url(self, obj):
-        if obj.photo:
-            request = self.context.get("request")
-            return request.build_absolute_uri(obj.photo.url) if request else obj.photo.url
-        return None
+    def _build_url(self, request, url):
+        return request.build_absolute_uri(url) if request else url
+
+    def get_photo_urls(self, obj):
+        if not obj.photo or not obj.photo.name:
+            return None
+        request = self.context.get("request")
+        return {
+            "original": self._build_url(request, obj.photo.original_url) if obj.photo.original_url else None,
+            "icon": self._build_url(request, obj.photo.icon_url) if obj.photo.icon_url else None,
+            "normal": self._build_url(request, obj.photo.normal_url) if obj.photo.normal_url else None,
+            "large": self._build_url(request, obj.photo.large_url) if obj.photo.large_url else None,
+        }
 
 
 class ProjectSerializer(serializers.ModelSerializer):
@@ -50,6 +58,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     education = EducationSerializer(many=True, read_only=True)
     skills = SkillCategorySerializer(many=True, read_only=True)
     projects = ProjectSerializer(many=True, read_only=True)
+    avatar_urls = serializers.SerializerMethodField()
 
     class Meta:
         model = Profile
@@ -63,11 +72,26 @@ class ProfileSerializer(serializers.ModelSerializer):
             "github",
             "linkedin",
             "avatar_url",
+            "avatar_urls",
             "stats",
             "education",
             "skills",
             "projects",
         ]
+
+    def _build_url(self, request, url):
+        return request.build_absolute_uri(url) if request else url
+
+    def get_avatar_urls(self, obj):
+        if not obj.avatar_url or not obj.avatar_url.name:
+            return None
+        request = self.context.get("request")
+        return {
+            "original": self._build_url(request, obj.avatar_url.original_url) if obj.avatar_url.original_url else None,
+            "icon": self._build_url(request, obj.avatar_url.icon_url) if obj.avatar_url.icon_url else None,
+            "normal": self._build_url(request, obj.avatar_url.normal_url) if obj.avatar_url.normal_url else None,
+            "large": self._build_url(request, obj.avatar_url.large_url) if obj.avatar_url.large_url else None,
+        }
 
 
 class MessageSerializer(serializers.ModelSerializer):
