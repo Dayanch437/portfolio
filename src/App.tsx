@@ -19,6 +19,12 @@ interface Profile {
 	github: string;
 	linkedin: string;
 	avatar_url: string;
+	avatar_urls: {
+		original: string | null;
+		icon: string | null;
+		normal: string | null;
+		large: string | null;
+	} | null;
 	stats: Stat[];
 	education: EducationItem[];
 	skills: SkillItem[];
@@ -42,13 +48,19 @@ interface EducationItem {
 	order: number;
 }
 
+interface SkillUrls {
+	original: string | null;
+	icon: string | null;
+	normal: string | null;
+	large: string | null;
+}
+
 interface SkillItem {
 	id: number;
 	name: string;
 	description: string;
 	order: number;
-	photo: string | null;
-	photo_url: string | null;
+	photo_urls: SkillUrls | null;
 }
 
 interface Project {
@@ -72,7 +84,7 @@ function App() {
 	useEffect(() => {
 		const fetchProfile = async () => {
 			try {
-				const response = await fetch("http://127.0.0.1:8000/api/profile/");
+				const response = await fetch("http://dayanch.pythonanywhere.com/api/profile/");
 				const data = await response.json();
 				setProfile(data);
 			} catch (error) {
