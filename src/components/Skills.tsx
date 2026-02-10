@@ -1,10 +1,16 @@
+interface SkillUrls {
+  original: string | null;
+  icon: string | null;
+  normal: string | null;
+  large: string | null;
+}
+
 interface SkillItem {
   id: number;
   name: string;
   description: string;
   order: number;
-  photo: string | null;
-  photo_url: string | null;
+  photo_urls: SkillUrls | null;
 }
 
 interface SkillsProps {
@@ -21,8 +27,12 @@ export default function Skills({ skills }: SkillsProps) {
       <div className="skills">
         {skills.map((skill) => (
           <div key={skill.id} className="skill">
-            {skill.photo_url && (
-              <img src={skill.photo_url} alt={skill.name} className="skill__image" />
+            {skill.photo_urls?.icon && (
+              <img
+                src={skill.photo_urls.icon}
+                alt={skill.name}
+                className="skill__image"
+              />
             )}
             <h4>{skill.name}</h4>
             <p>{skill.description}</p>

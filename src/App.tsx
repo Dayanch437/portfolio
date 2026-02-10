@@ -72,7 +72,7 @@ function App() {
 	useEffect(() => {
 		const fetchProfile = async () => {
 			try {
-				const response = await fetch("https://dayanch.pythonanywhere.com/api/profile/");
+				const response = await fetch("http://127.0.0.1:8000/api/profile/");
 				const data = await response.json();
 				setProfile(data);
 			} catch (error) {
