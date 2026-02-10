@@ -5,6 +5,8 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
+from config import settings
+
 from .models import Education, Message, Profile, Project, SkillCategory, ChatSession, ChatMessage
 from .serializers import (
     MessageSerializer,
@@ -12,10 +14,6 @@ from .serializers import (
     ChatSessionSerializer,
 )
 
-# Configure Gemini API
-GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
-if GEMINI_API_KEY:
-    genai.configure(api_key=GEMINI_API_KEY)
 
 
 @api_view(["GET"])
@@ -58,11 +56,13 @@ def ai_chat(request):
     }
     """
     try:
-        if not GEMINI_API_KEY:
+        if not settings.GEMINI_API_KEY:
             return Response(
                 {"error": "Gemini API key not configured"},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+
+        genai.configure(api_key=settings.GEMINI_API_KEY)
         
         message = request.data.get('message', '')
         session_id = request.data.get('session_id', '')
@@ -136,7 +136,7 @@ Please provide concise, helpful responses."""
             })
         
         # Initialize the Gemini model with chat
-        model = genai.GenerativeModel('gemini-2.5-flash')
+        model = genai.GenerativeModel('gemma-3-27b-it')
         
         # Start or continue chat
         if chat_history:

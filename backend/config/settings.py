@@ -1,6 +1,10 @@
 from pathlib import Path
+import os
+from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+load_dotenv(BASE_DIR / '.env')
 
 
 SECRET_KEY = 'django-insecure-qswc4xgmbd-*ufr%w0#+vl@ms9c4e1q(5qc!8(3*)n_6y7p4_q'
@@ -101,8 +105,9 @@ CORS_ALLOWED_ORIGINS = [
     "https://dayanch2003.vercel.app",
     "http://localhost:5173",
 ]
-CRSF_TRUSTED_ORIGINS = [
+CSRF_TRUSTED_ORIGINS = [
     "https://dayanch2003.vercel.app",
+    "http://localhost:5173",
 ]
 CORS_ALLOW_CREDENTIALS = True
 
@@ -122,4 +127,6 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 20,
 }
+
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
 
