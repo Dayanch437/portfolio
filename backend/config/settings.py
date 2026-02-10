@@ -1,12 +1,6 @@
-import os
 from pathlib import Path
-from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-# Load environment variables
-load_dotenv(BASE_DIR / '.env')
-
 
 
 SECRET_KEY = 'django-insecure-qswc4xgmbd-*ufr%w0#+vl@ms9c4e1q(5qc!8(3*)n_6y7p4_q'
@@ -69,10 +63,6 @@ DATABASES = {
     }
 }
 
-
-# Password validation
-# https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -107,10 +97,10 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 CORS_ALLOWED_ORIGINS = [
-    "http://dayanch2003.me",
+    "https://dayanch2003.vercel.app",
 ]
 CRSF_TRUSTED_ORIGINS = [
-    "http://dayanch2003.me",
+    "https://dayanch2003.vercel.app",
 ]
 CORS_ALLOW_CREDENTIALS = True
 
@@ -131,10 +121,3 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 20,
 }
 
-SPECTACULAR_SETTINGS = {
-    'TITLE': 'Portfolio API',
-    'DESCRIPTION': 'API documentation for the portfolio website with AI chat capabilities',
-    'VERSION': '1.0.0',
-    'SERVE_INCLUDE_SCHEMA': False,
-    'COMPONENT_SPLIT_REQUEST': True,
-}

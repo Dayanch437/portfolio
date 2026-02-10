@@ -11,7 +11,21 @@ node_modules
 dist
 dist-ssr
 *.local
-
+/build
+/.cache
+/.next
+/out
+/.nuxt
+/.vuepress/dist
+/.serverless
+/.parcel-cache
+.env
+.env.*.local
+!.env.example
+.idea
+.vscode
+*.suo
+*.ntvs*
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
