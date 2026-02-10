@@ -10,7 +10,7 @@ interface ChatWidgetProps {
   onToggle: () => void;
 }
 
-const API_URL = "http://213.21.235.119/api";
+const API_URL = "https://dayanch.pythonanywhere.com/api";
 
 export default function ChatWidget({ isOpen, onToggle }: ChatWidgetProps) {
   const [messages, setMessages] = useState<ChatMessage[]>([
