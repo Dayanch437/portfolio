@@ -1,16 +1,18 @@
 interface AvatarProps {
-  imageUrl: string;
+  imageUrl: string | null;
   altText: string;
 }
 
 export default function Avatar({ imageUrl, altText }: AvatarProps) {
   return (
     <div className="hero__intro">
-      <img
-        className="avatar"
-        src={imageUrl}
-        alt={altText}
-      />
+      {imageUrl && (
+        <img
+          className="avatar"
+          src={imageUrl}
+          alt={altText}
+        />
+      )}
     </div>
   );
 }
