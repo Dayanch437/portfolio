@@ -9,7 +9,7 @@ import ChatWidget from "./components/ChatWidget";
 import ContactForm from "./components/ContactForm";
 import Footer from "./components/Footer";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "http://127.0.0.1:8000";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "https://dayanch.pythonanywhere.com";
 const PROFILE_ENDPOINT = `${API_BASE_URL}/api/profile/`;
 
 interface Profile {
