@@ -218,7 +218,17 @@ function App() {
 	}, []);
 
 	if (loading) {
-		return <div className="page dark-mode" style={{ display: "grid", placeItems: "center", minHeight: "100vh" }}>Loading...</div>;
+		return (
+			<div
+				className="page dark-mode"
+				style={{ display: "grid", placeItems: "center", minHeight: "100vh" }}
+			>
+				<div className="app-loader" role="status" aria-live="polite">
+					<span className="app-loader__ring" aria-hidden="true" />
+					<span className="app-loader__text">Loading</span>
+				</div>
+			</div>
+		);
 	}
 
 	if (!profile) {
